@@ -25,7 +25,7 @@ public class AccountBizImpl implements AccountBiz {
 	public AccountQueryResponseDto queryAccount(AccountQueryRequestDto request) {
 		AccountQueryResponseDto response = new AccountQueryResponseDto();
 		
-		String assetTypes = request.getAssetTypes();
+		String assetTypes = request.getAssetType();
 		List<AssetTypeEnum> selectedAssetList = null;
 		if (!StringUtils.isEmpty(assetTypes)) {
 			selectedAssetList = new ArrayList<AssetTypeEnum>();

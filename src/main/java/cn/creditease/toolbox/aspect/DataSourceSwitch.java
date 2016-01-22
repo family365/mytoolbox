@@ -13,7 +13,7 @@ public class DataSourceSwitch {
 	private static final String PointDB = "pointDB";
 	private static final String TradeDB = "tradeDB";
 	
-	@Before("execution(* cn.creditease.toolbox.account.dao..*.(..))")
+	@Before("execution(* cn.creditease.toolbox.account.dao..*.*(..))")
 	public void setAccountDataSource() {
 		DataSourceHolder.setDataSource(AccountDB);
 	}

@@ -12,7 +12,6 @@
 	            /* The html and body elements cannot have any padding or margin. */
 	        }
 	
-	        /* Wrapper for page content to push down footer */
 	        #wrap {
 	            min-height: 100%;
 	            height: auto !important;
@@ -20,30 +19,6 @@
 	            /* Negative indent footer by it's height */
 	            margin: 0 auto -60px;
 	        }
-	
-	        /* Set the fixed height of the footer here */
-	        #push,
-	        #footer {
-	            height: 60px;
-	        }
-	
-	        #footer {
-	            background-color: #f5f5f5;
-	        }
-	
-	        /* Lastly, apply responsive CSS fixes as necessary */
-	        @media (max-width: 767px) {
-	            #footer {
-	                margin-left: -20px;
-	                margin-right: -20px;
-	                padding-left: 20px;
-	                padding-right: 20px;
-	            }
-	        }
-	
-	        /* Custom page CSS
-	        -------------------------------------------------- */
-	        /* Not required for template or sticky footer method. */
 	
 	        .container {
 	            width: auto;
@@ -62,25 +37,32 @@
 	        	width: 200px;
 	        	color: 999999
 	        }
+	        
+	        #title {
+	        	margin-top: 50px;
+	        	text-align: center;
+	        }
 		</style>
 		<script type="text/javascript" src="javascript/jquery.js"></script>
 	</head>
 	<body>
 		<div id="Wrap">
-			<h2>资产账户查询</h2>
+			<div id="title">
+				<h2>资产账户查询</h2>
+			</div>
 			<div class="container">
 				<div class="form-horizontal">
 					<div class="control-group">
 						<label class="control-label" for="merchantCode">商户号</label>
 						<div class="controls">
-							<input id="merchantCode" name="merchantCode" type="text" value="merchant code" placeholder="merchant code"
+							<input id="merchantCode" name="merchantCode" type="text" placeholder="merchant code"
 							onblur="if (value==defaultValue) {value='';}">
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="userId">用户ID</label>
 						<div class="controls">
-							<input id="userId" name="userId" type="text" value="user id" placeholder="user id"
+							<input id="userId" name="userId" type="text" placeholder="user id"
 							onblur="if (value==defaultValue) {value=''}">
 						</div>
 					</div>
@@ -99,9 +81,17 @@
 				</div>
 			</div>
 			<table class="table table-bordered">
-				<div id="caption"></div>
+				<div id="caption">Hello</div>
 				<thead id=dataHead">
-					<tr></tr>
+					<tr>
+						<th>Merchant Code</th>
+						<th>User Id</th>
+						<th>Asset Type</th>
+						<th>Account Category</th>
+						<th>Balance</th>
+						<th>Valid Balance</th>
+						<th>Frozen Balance</th>
+					</tr>
 				</thead>
 				<tbody id="dataBody">
 				</tbody>
@@ -131,9 +121,9 @@
 				var assetType='';
 				var defaultSelectedAssetType='';
 				$("input:checkbox").each(function(){
-					alert("h");
 					defaultSelectedAssetType += $(this).attr('value') + ',';
-					if ($(this).attr('checked')==true) {
+					var isChecked =$(this).prop('checked')
+					if ($(this).prop('checked')==true) {
 						assetType += $(this).attr('value') + ',';
 					}
 				});
@@ -146,10 +136,10 @@
 				}
 				
 				$.ajax({
-					url:'/account/query.do',
+					url:'account/query.do',
 					type:'get',
 					cache:false,
-					data:{'merchantCode':merchantCode, 'userId':userId, 'assetType':assetType},
+					data:{"merchantCode":merchantCode, "userId":userId, "assetType":assetType},
 					error:function(error){
 		                $("#caption").removeClass("alert alert-success").addClass("alert alert-error");
 		                $("#caption").html("run into error, please retry or contact with admin.")
@@ -159,36 +149,54 @@
 			                $("#caption").removeClass("alert alert-success").addClass("alert alert-error");
 			                $("#caption").html(response.errorMessage);							
 						} else {
-							renderData(response.data);
+			                $("#caption").removeClass("alert alert-error").addClass("alert alert-success");
+			                var caption='Query result: merchantCode=' + response.data.merchantCode + ', userId=' + response.data.userId + ', assetType=' + response.data.assetTypeList;
+			                $("#caption").html(caption);
+
+							renderData(response.data); //call the function
+							//$("#dataBody").html($("#accountTemplate").render(response.data));
 						}
 					}
 				});
 			}
 			
-			function renderData(data) {
-                $("#caption").removeClass("alert alert-error").addClass("alert alert-success");
-                var caption='Query result: merchantCode=' + data.merchantcode + ', userId=' + data.userId + ', assetType=' + data.assetTypes;
-                $("#caption").html(caption);
-                
-                var accountList = data.accountList;
-                var firstElement=accountList[0];
-                var header=new Array();
-                $.each(firstElement, function(key, value){
-                	header.push(key);
-                });
-				
-                $.each(header, function(index, value){
-                	$("#dataHeader tr").append("<th>").append(value).append("</th>");	
-                });
-                
+			function renderData(data) {                
+                var accountList = data.accountList;            	
+                var body=''
                 $.each(accountList, function(index, item) {
-                	$("#dataBody").append("<tr>");
-                	$.each(item, function(key,value) {
-                		$("#dataBody").append("<td>").append(value).append("</td>")
-                	});
-                	$("#dataBody").append("</tr>");
+                	//$("#dataBody").append("<tr>");
+                	//$("#dataBody").append("<td>").append(item["merchantCode"]).append("</td>")
+                	//$("#dataBody").append("<td>").append(item["userId"]).append("</td>")
+                	//$("#dataBody").append("</tr>");
+                	//上面的效果会让页面的表结构混乱，
+                	body += "<tr>";
+                	body += "<td>" + item["merchantCode"] + "</td>";
+                	body += "<td>" + item["userId"] + "</td>";
+                	body += "<td>" + item["assetType"] + "</td>";
+                	body += "<td>" + item["accountCategory"] + "</td>";
+                	body += "<td>" + item["balance"] + "</td>";
+                	body += "<td>" + item["validBalance"] + "</td>";
+                	body += "<td>" + item["frozenBalance"] + "</td>";
+                	body += "</tr>";
                 });
+                
+                $("#dataBody").html(body);
 			}
+		</script>
+		
+		<script type="text/javascript" src="javascript/jsrender.js"></script>
+		<script id="accountTemplate" type="text/x-jsrender">
+			{{for accountList}}
+				<tr>
+					<td>{{:merchantCode}}</td>
+					<td>{{:userId}}</td>
+					<td>{{:assetType}}</td>
+					<td>{{:accountCategory}}</td>
+					<td>{{:balance}}</td>
+					<td>{{:validBalance}}</td>
+					<td>{{:frozenBalance}}</td>
+				</tr>
+           {{/for}}
 		</script>
 	</body>
 </html>

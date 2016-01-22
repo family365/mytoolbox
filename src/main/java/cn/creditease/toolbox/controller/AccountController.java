@@ -22,14 +22,26 @@ public class AccountController {
 	@Autowired
 	private AccountBiz accountBiz;
 	
+	@RequestMapping(value = "/1.do", method = RequestMethod.GET)
+	@ResponseBody
+	public String queryAccount() {
+		System.out.println("ouot");
+		return "response";
+	}
+	
 	@RequestMapping(value = "/query.do", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseDto<AccountQueryResponseDto> queryAccount(AccountQueryRequestDto request) {
+		logger.info(request.toString());
 		ResponseDto<AccountQueryResponseDto> response = new ResponseDto<AccountQueryResponseDto>();
 		try {
 			checkParameter(request);
 			AccountQueryResponseDto data = accountBiz.queryAccount(request);
-			response.setData(data);
+			if (data.getAccountList() == null || data.getAccountList().size() < 1) {
+				response.error("No matched result found");
+			} else {
+				response.succ(data);
+			}
 		} catch(Exception ex) {
 			response.error(ex.getMessage());
 		}

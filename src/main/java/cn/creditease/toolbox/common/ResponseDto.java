@@ -12,27 +12,27 @@ public class ResponseDto<T> implements Serializable {
     
     private boolean ret;
     private T data;
-    private String errcode;
-    private String errmsg;
+    private String errorCode;
+    private String errorMessage;
 
     public ResponseDto<T> error(String errcode, String errmsg) {
         setRet(false);
-        setErrcode(errcode);
-        setErrmsg(errmsg);
+        setErrorCode(errcode);
+        setErrorMessage(errmsg);
         return this;
     }
     
     public ResponseDto<T> error(String errmsg) {
         setRet(false);
-        setErrcode(DefaultErrorCode);
-        setErrmsg(errmsg);
+        setErrorCode(DefaultErrorCode);
+        setErrorMessage(errmsg);
         return this;
     }
 
     public ResponseDto<T> succ(T data) {
         setRet(true);
-        setErrcode(DefaultSuccessCode);
-        setErrmsg(DefaultSuccessMessage);
+        setErrorCode(DefaultSuccessCode);
+        setErrorMessage(DefaultSuccessMessage);
         setData(data);
         return this;
     }
@@ -40,14 +40,14 @@ public class ResponseDto<T> implements Serializable {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("{").append("\"ret\":").append(ret)
-        		.append(", ").append("\"errcode\":").append(errcode)
-        		.append(", ").append("\"errmsg\":").append(errmsg)
+        		.append(", ").append("\"errcode\":").append(errorCode)
+        		.append(", ").append("\"errmsg\":").append(errorMessage)
                 .append(", ").append("\"data\":").append(data)
                 .append("}");
         return builder.toString();
     }
 
-    public boolean isRet() {
+    public boolean getRet() {
         return ret;
     }
 
@@ -63,19 +63,19 @@ public class ResponseDto<T> implements Serializable {
         this.data = data;
     }
 
-    public String getErrcode() {
-        return errcode;
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    public void setErrcode(String errcode) {
-        this.errcode = errcode;
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public String getErrmsg() {
-        return errmsg;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setErrmsg(String errmsg) {
-        this.errmsg = errmsg;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

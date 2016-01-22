@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class AccountQueryRequestDto implements Serializable {
 	private String merchantCode;
 	private String userId;
-	private String assetTypes;
+	private String assetType;
 	
 	public String getMerchantCode() {
 		return merchantCode;
@@ -23,11 +23,20 @@ public class AccountQueryRequestDto implements Serializable {
 		this.userId = userId;
 	}
 	
-	public String getAssetTypes() {
-		return assetTypes;
+	public String getAssetType() {
+		return assetType;
 	}
 	
-	public void setAssetTypes(String assetTypes) {
-		this.assetTypes = assetTypes;
+	public void setAssetType(String assetType) {
+		this.assetType = assetType;
+	}
+	
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("{").append("\"merchantCode\":").append(merchantCode)
+					.append(", \"userId\":").append(userId)
+					.append(",\"assetType\":").append(assetType)
+					.append("}");
+		return stringBuilder.toString();
 	}
 }

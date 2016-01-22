@@ -28,10 +28,11 @@
 		<typeHandler
 			handler="cn.creditease.toolbox.typehandler.AssetTypeEnumHandler"
 			javaType="cn.creditease.toolbox.enums.AssetTypeEnum" />
+		
 	</typeHandlers>
 
 
 	<mappers>
-		<mapper resource="toolbox-sqlmap/Account.xml" />
+		<mapper resource="toolbox-sqlmap/AccountMapper.xml" />
 	</mappers>
 </configuration>

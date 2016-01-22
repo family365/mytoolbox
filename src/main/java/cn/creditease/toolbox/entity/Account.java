@@ -1,5 +1,7 @@
 package cn.creditease.toolbox.entity;
 
+import java.math.BigDecimal;
+
 import cn.creditease.toolbox.common.Entity;
 import cn.creditease.toolbox.common.Money;
 import cn.creditease.toolbox.enums.AccountCategoryEnum;
@@ -7,16 +9,13 @@ import cn.creditease.toolbox.enums.AssetTypeEnum;
 
 public class Account implements Entity<Long>{
     private Long id;
-    private String bizCode;
     private String merchantCode;
-    private String accountName;
+    private String userId;
     private AssetTypeEnum assetType;
     private AccountCategoryEnum accountCategory;
-    private Money balance;
-    private Money validBalance;
-    private Money frozenBalance;
-    private String userId;
-    private String curId;
+    private BigDecimal balance;
+    private BigDecimal validBalance;
+    private BigDecimal frozenBalance;
 	
 	@Override
 	public Long getId() {
@@ -29,14 +28,6 @@ public class Account implements Entity<Long>{
 		
 	}
 
-	public String getBizCode() {
-		return bizCode;
-	}
-
-	public void setBizCode(String bizCode) {
-		this.bizCode = bizCode;
-	}
-
 	public String getMerchantCode() {
 		return merchantCode;
 	}
@@ -44,15 +35,7 @@ public class Account implements Entity<Long>{
 	public void setMerchantCode(String merchantCode) {
 		this.merchantCode = merchantCode;
 	}
-
-	public String getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-
+	
 	public AssetTypeEnum getAssetType() {
 		return assetType;
 	}
@@ -69,27 +52,27 @@ public class Account implements Entity<Long>{
 		this.accountCategory = accountCategory;
 	}
 
-	public Money getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Money balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 
-	public Money getValidBalance() {
+	public BigDecimal getValidBalance() {
 		return validBalance;
 	}
 
-	public void setValidBalance(Money validBalance) {
+	public void setValidBalance(BigDecimal validBalance) {
 		this.validBalance = validBalance;
 	}
 
-	public Money getFrozenBalance() {
+	public BigDecimal getFrozenBalance() {
 		return frozenBalance;
 	}
 
-	public void setFrozenBalance(Money frozenBalance) {
+	public void setFrozenBalance(BigDecimal frozenBalance) {
 		this.frozenBalance = frozenBalance;
 	}
 
@@ -100,25 +83,16 @@ public class Account implements Entity<Long>{
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	public String getCurId() {
-		return curId;
-	}
-
-	public void setCurId(String curId) {
-		this.curId = curId;
-	}
 	
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("{\"id\":\"").append(id)
-                .append("\",\"bizCode\":\"").append(bizCode).append("\",\"merchantCode\":\"").append(merchantCode)
-                .append("\",\"accountName\":\"").append(accountName).append("\",\"assetType\":\"").append(assetType)
+                .append("\",\"merchantCode\":\"").append(merchantCode)
+                .append("\",\"assetType\":\"").append(assetType)
                 .append("\",\"accountCategory\":\"").append(accountCategory).append("\",\"accountDesc\":\"")
                 .append(balance).append("\",\"validBalance\":\"")
                 .append(validBalance).append("\",\"frozenBalance\":\"").append(frozenBalance)
                 .append("\",\"userId\":\"").append(userId)
-                .append("\",\"curId\":\"").append(curId)
                 .append("\"} ");
         return builder.toString();
     }
