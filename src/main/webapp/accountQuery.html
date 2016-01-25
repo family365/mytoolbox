@@ -1,88 +1,110 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-		<link rel="stylesheet" href="css/bootstrap-response.css">
-		<link rel="stylesheet" href="css/bootstrap.css">
-		<style type="text/css">
-	        html,
-	        body {
-	            height: 100%;
-	            /* The html and body elements cannot have any padding or margin. */
-	        }
-	
-	        #wrap {
-	            min-height: 100%;
-	            height: auto !important;
-	            height: 100%;
-	            /* Negative indent footer by it's height */
-	            margin: 0 auto -60px;
-	        }
-	
-	        .container {
-	            width: auto;
-	            max-width: 680px;
-	        }
-	
-	        .container .credit {
-	            margin: 20px 0;
-	        }
-	        
-	        label {
-	        	width: 20px;
-	        }
-	        
-	        input {
-	        	width: 200px;
-	        	color: 999999
-	        }
-	        
-	        #title {
-	        	margin-top: 50px;
-	        	text-align: center;
-	        }
-		</style>
-		<script type="text/javascript" src="javascript/jquery.js"></script>
-	</head>
-	<body>
-		<div id="Wrap">
-			<div id="title">
-				<h2>资产账户查询</h2>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+html, body {
+	height: 80%;
+	/* The html and body elements cannot have any padding or margin. */
+}
+
+
+#title {
+	width: 80%; 
+	margin-top : 50px;
+	text-align: center;
+}
+
+.container {
+	width: 60%;
+	margin-top:10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.control-group {
+  margin-bottom: 10px;
+}
+
+.table {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
+}
+
+.table th {
+	font-weight: bold;
+}
+
+.table th, .table td {
+	padding: 8px;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: top;
+	border-top: 1px solid #dddddd;
+}
+
+.table-bordered {
+	border: 1px solid #dddddd;
+}
+
+.table-bordered th, .table-bordered td {
+	border-left: 1px solid #dddddd;
+}
+
+input[type="text"] {
+	width: 200px;
+	color: 999999
+}
+
+.result {
+	margin-top: 30px;
+}
+
+#resultPrompt {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+}
+
+</style>
+<script type="text/javascript" src="javascript/jquery.js"></script>
+</head>
+<body>
+	<div>
+		<div id="title">
+			<h2>资产账户查询</h2>
+		</div>
+		<hr />
+		<div class="container">
+			<div class="control-group">
+				<label for="merchantCode">商户号:</label> 
+				<input id="merchantCode" name="merchantCode" type="text" placeholder="merchant code">
 			</div>
-			<div class="container">
-				<div class="form-horizontal">
-					<div class="control-group">
-						<label class="control-label" for="merchantCode">商户号</label>
-						<div class="controls">
-							<input id="merchantCode" name="merchantCode" type="text" placeholder="merchant code"
-							onblur="if (value==defaultValue) {value='';}">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="userId">用户ID</label>
-						<div class="controls">
-							<input id="userId" name="userId" type="text" placeholder="user id"
-							onblur="if (value==defaultValue) {value=''}">
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="merchantCode">资产类型</label>
-						<div class="controls">
-							<input type="checkbox" class="assetTypeCheckbox" name="assetType" id="balance" value="1">余额
-							<input type="checkbox" class="assetTypeCheckbox" name="assetType" id="point" value="3">积分
-						</div>
-					</div>
-					<div class="control-group">
-		                <div class="controls">
-		                    <button type="button" class="btn btn-primary" onclick="queryAccount()">账户资产查询</button>
-		                </div>
-            		</div>
+			<div class="control-group">
+				<label for="userId">用户ID:</label> 
+				<input id="userId" name="userId" type="text" placeholder="user id">
+			</div>
+			<div class="control-group">
+				<label for="merchantCode">资产类型:</label> 
+				<input type="checkbox" name="assetType" id="balance" value="1">余额 
+				<input type="checkbox" name="assetType" id="point" value="3">积分
+			</div>
+			<div class="control-group">
+				<div>
+					<button type="button" class="btn btn-primary" onclick="queryAccount()">账户资产查询</button>
 				</div>
 			</div>
+		</div>
+
+		<div class="result">
+			<div id="resultPrompt">Query Result:</div>
 			<table class="table table-bordered">
-				<div id="caption">Hello</div>
-				<thead id=dataHead">
+				<thead id="dataHead">
 					<tr>
 						<th>Merchant Code</th>
 						<th>User Id</th>
@@ -97,95 +119,103 @@
 				</tbody>
 			</table>
 		</div>
-		
-		<script type="text/javascript">
-			$(document).ready(function(){
-				String.prototype.trim=function(){
-					return this.replace(/^\s+/,'').replace(/\s+$/,'');
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			String.prototype.trim = function() {
+				return this.replace(/^\s+/, '').replace(/\s+$/, '');
+			}
+		});
+
+		function queryAccount() {
+			var merchantCode = $("#merchantCode").val();
+			if (merchantCode.trim() == '') {
+				alert("merchantCode is required");
+				return;
+			}
+
+			var userId = $("#userId").val();
+			if (userId.trim() == '') {
+				alert('userId is required');
+				return;
+			}
+
+			var assetType = '';
+			var defaultSelectedAssetType = '';
+			$("input:checkbox").each(function() {
+				defaultSelectedAssetType += $(this).attr('value') + ',';
+				var isChecked = $(this).prop('checked')
+				if ($(this).prop('checked') == true) {
+					assetType += $(this).attr('value') + ',';
 				}
 			});
-			
-			function queryAccount() {
-				var merchantCode=$("#merchantCode").val();
-				if (merchantCode.trim()=='') {
-					alert("merchantCode is required");
-					return;
-				}
-				
-				var userId=$("#userId").val();
-				if (userId.trim()=='') {
-					alert('userId is required');
-					return;
-				}
-				
-				var assetType='';
-				var defaultSelectedAssetType='';
-				$("input:checkbox").each(function(){
-					defaultSelectedAssetType += $(this).attr('value') + ',';
-					var isChecked =$(this).prop('checked')
-					if ($(this).prop('checked')==true) {
-						assetType += $(this).attr('value') + ',';
-					}
-				});
-				
-				if (assetType.length > 0) {
-					assetType = assetType.substring(0, assetType.length-1);
-				}
-				else {
-					assetType = defaultSelectedAssetType.substring(0, defaultSelectedAssetType.length-1);
-				}
-				
-				$.ajax({
-					url:'account/query.do',
-					type:'get',
-					cache:false,
-					data:{"merchantCode":merchantCode, "userId":userId, "assetType":assetType},
-					error:function(error){
-		                $("#caption").removeClass("alert alert-success").addClass("alert alert-error");
-		                $("#caption").html("run into error, please retry or contact with admin.")
-					},
-					success:function(response){
-						if (!response.ret) {
-			                $("#caption").removeClass("alert alert-success").addClass("alert alert-error");
-			                $("#caption").html(response.errorMessage);							
-						} else {
-			                $("#caption").removeClass("alert alert-error").addClass("alert alert-success");
-			                var caption='Query result: merchantCode=' + response.data.merchantCode + ', userId=' + response.data.userId + ', assetType=' + response.data.assetTypeList;
-			                $("#caption").html(caption);
 
-							renderData(response.data); //call the function
-							//$("#dataBody").html($("#accountTemplate").render(response.data));
+			if (assetType.length > 0) {
+				assetType = assetType.substring(0, assetType.length - 1);
+			} else {
+				assetType = defaultSelectedAssetType.substring(0,
+						defaultSelectedAssetType.length - 1);
+			}
+
+			$.ajax({
+						url : 'account/query.do',
+						type : 'get',
+						cache : false,
+						data : {
+							"merchantCode" : merchantCode,
+							"userId" : userId,
+							"assetType" : assetType
+						},
+						error : function(error) {
+							$("#resultPrompt")
+									.html(
+											"run into error, please retry or contact with admin.")
+						},
+						success : function(response) {
+							if (!response.ret) {
+								$("#resultPrompt").html(response.errorMessage);
+							} else {
+								var caption = 'Query result: merchantCode='
+										+ response.data.merchantCode
+										+ ', userId=' + response.data.userId
+										+ ', assetType='
+										+ response.data.assetTypeList;
+								$("#resultPrompt").html(caption);
+
+								renderData(response.data); //call the function
+								//$("#dataBody").html($("#accountTemplate").render(response.data));
+							}
 						}
-					}
-				});
-			}
-			
-			function renderData(data) {                
-                var accountList = data.accountList;            	
-                var body=''
-                $.each(accountList, function(index, item) {
-                	//$("#dataBody").append("<tr>");
-                	//$("#dataBody").append("<td>").append(item["merchantCode"]).append("</td>")
-                	//$("#dataBody").append("<td>").append(item["userId"]).append("</td>")
-                	//$("#dataBody").append("</tr>");
-                	//上面的效果会让页面的表结构混乱，
-                	body += "<tr>";
-                	body += "<td>" + item["merchantCode"] + "</td>";
-                	body += "<td>" + item["userId"] + "</td>";
-                	body += "<td>" + item["assetType"] + "</td>";
-                	body += "<td>" + item["accountCategory"] + "</td>";
-                	body += "<td>" + item["balance"] + "</td>";
-                	body += "<td>" + item["validBalance"] + "</td>";
-                	body += "<td>" + item["frozenBalance"] + "</td>";
-                	body += "</tr>";
-                });
-                
-                $("#dataBody").html(body);
-			}
-		</script>
-		
-		<script type="text/javascript" src="javascript/jsrender.js"></script>
-		<script id="accountTemplate" type="text/x-jsrender">
+					});
+		}
+
+		function renderData(data) {
+			var accountList = data.accountList;
+			var body = ''
+			$.each(accountList, function(index, item) {
+				//$("#dataBody").append("<tr>");
+				//$("#dataBody").append("<td>").append(item["merchantCode"]).append("</td>")
+				//$("#dataBody").append("<td>").append(item["userId"]).append("</td>")
+				//$("#dataBody").append("</tr>");
+				//上面的效果会让页面的表结构混乱，
+				body += "<tr>";
+				body += "<td>" + item["merchantCode"] + "</td>";
+				body += "<td>" + item["userId"] + "</td>";
+				body += "<td>" + item["assetType"] + "</td>";
+				body += "<td>" + item["accountCategory"] + "</td>";
+				body += "<td>" + item["balance"] + "</td>";
+				body += "<td>" + item["validBalance"] + "</td>";
+				body += "<td>" + item["frozenBalance"] + "</td>";
+				body += "</tr>";
+			});
+
+			$("#dataBody").html(body);
+		}
+	</script>
+
+	<script type="text/javascript" src="javascript/jsrender.js"></script>
+	<script id="accountTemplate" type="text/x-jsrender">
 			{{for accountList}}
 				<tr>
 					<td>{{:merchantCode}}</td>
@@ -198,5 +228,5 @@
 				</tr>
            {{/for}}
 		</script>
-	</body>
+</body>
 </html>
