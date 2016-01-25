@@ -63,6 +63,11 @@ input[type="text"] {
 	margin-top: 30px;
 }
 
+.control-label {
+	display:inline-block;
+	width: 80px;
+}
+
 #resultPrompt {
 	width: 80%;
 	margin-left: auto;
@@ -70,6 +75,17 @@ input[type="text"] {
 	background-color: #dff0d8;
 	border-color: #d6e9c6;
 }
+
+.btn {
+  	color: #333333;
+  	text-align: center;
+  	color: #ffffff;
+  	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  	background-color: #006dcc;
+  	border-color: #0044cc #0044cc #002a80;
+  	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
 
 </style>
 <script type="text/javascript" src="javascript/jquery.js"></script>
@@ -82,21 +98,21 @@ input[type="text"] {
 		<hr />
 		<div class="container">
 			<div class="control-group">
-				<label for="merchantCode">商户号:</label> 
+				<label class="control-label" for="merchantCode">商户号:</label> 
 				<input id="merchantCode" name="merchantCode" type="text" placeholder="merchant code">
 			</div>
 			<div class="control-group">
-				<label for="userId">用户ID:</label> 
+				<label class="control-label" for="userId">用户ID:</label> 
 				<input id="userId" name="userId" type="text" placeholder="user id">
 			</div>
 			<div class="control-group">
-				<label for="merchantCode">资产类型:</label> 
+				<label class="control-label" for="merchantCode">资产类型:</label> 
 				<input type="checkbox" name="assetType" id="balance" value="1">余额 
 				<input type="checkbox" name="assetType" id="point" value="3">积分
 			</div>
 			<div class="control-group">
 				<div>
-					<button type="button" class="btn btn-primary" onclick="queryAccount()">账户资产查询</button>
+					<button type="button" class="btn" onclick="queryAccount()">账户资产查询</button>
 				</div>
 			</div>
 		</div>
